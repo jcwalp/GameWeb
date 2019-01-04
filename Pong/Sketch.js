@@ -2,7 +2,7 @@ let leftScore = 0;
 let rightScore = 0;
 
 function setup() {
-  createCanvas(800, 400);
+  createCanvas(800, 600);
   frameRate(120);
   ball = new Ball();
   left = new PlayerPaddle();
@@ -10,6 +10,7 @@ function setup() {
 }
 
 function draw() {
+
   background(51);
   ball.checkLeftCollisions(left);
   ball.checkRightCollisions(right);
@@ -32,19 +33,25 @@ function dispScore() {
   textSize(32);
   text(leftScore, 32, 40);
   text(rightScore, width - 64, 40);
+  text("R:Up V:Down", 320, 40);
 }
 
 function keyReleased(){
-  left.move(0);
+  if (key == 'r'){
+    left.move(-.1);
+  }
+  else if (key == 'v'){
+    left.move(.1);
+  }
 }
 
 function keyPressed(){
   console.log("pressed");
   if (key == 'r'){
-    left.move(-7);
+    left.move(-8);
   }
   else if (key == 'v'){
-    left.move(7);
+    left.move(8);
   }
 
 }

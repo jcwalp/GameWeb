@@ -13,7 +13,7 @@ class AIPaddle {
   }
 
   move(){
-    this.y = ball.y - 2;
+    this.y = ball.y;
   }
 
   show(){
