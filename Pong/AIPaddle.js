@@ -4,7 +4,7 @@ class AIPaddle {
     this.w = 20;
     this.x = width - 40;
     this.h = 100;
-    this.yChange = 0;
+    this.yChange = .5;
   }
 
   update(){
