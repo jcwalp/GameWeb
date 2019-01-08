@@ -1,64 +1,83 @@
-// Daniel Shiffman
-// http://youtube.com/thecodingtrain
-// http://codingtra.in
+//Snake v 1.0 - JcW Electronics Principals and Engineering
 
-// Coding Challenge #115: Snake Game Redux
-// https://youtu.be/OMoVcohRgZA
+//Defining Variables
+var s; //global variable for snake
+var scl = 30; //creates scale for grid layout
+var food; //global variable for food
+var rightDir = true; //comes in later to protect against going back on yourself and dying
+var leftDir = false; //^^^
+var upDir = false; //^^^
+var downDir = false; //^^^
 
-let snake;
-let rez = 20;
-let food;
-let w;
-let h;
-
-function setup() {
-  createCanvas(400, 400);
-  w = floor(width / rez);
-  h = floor(height / rez);
-  frameRate(5);
-  snake = new Snake();
-  foodLocation();
+//Setup
+function setup(){
+	createCanvas(600, 600); //Creates the playing space
+	s = new Snake(); //Creates a user defined object for snake
+	frameRate(10); //Sets framerate to 10 to give a retro feel
+	pickLocation(); //function that is defined on line 19
 }
 
-function foodLocation() {
-  let x = floor(random(w));
-  let y = floor(random(h));
-  food = createVector(x, y);
-
+//Function for picking a location for food spawns
+function pickLocation(){
+	var cols = floor(width/scl); //Creating a 30x30 grid to make it easy to line up
+	var rows = floor(height/scl); //^^^^
+	if (cols == s.tail || rows == s.tail){
+		cols = floor(width/scl);
+		rows = floor(height/scl);
+	}
+	food = createVector(floor(random(cols)), floor(random(rows))); //Will generate a food object in a random column and row
+	food.mult(scl); //Multiplies the food object by our scale so it will be the same size as snake
 }
 
-function keyPressed() {
-  if (keyCode === LEFT_ARROW) {
-    snake.setDir(-1, 0);
-  } else if (keyCode === RIGHT_ARROW) {
-    snake.setDir(1, 0);
-  } else if (keyCode === DOWN_ARROW) {
-    snake.setDir(0, 1);
-  } else if (keyCode === UP_ARROW) {
-    snake.setDir(0, -1);
-  } else if (key == ' ') {
-    snake.grow();
-  }
+//Where all of the graphics are created
+function draw(){
+	background(34, 49, 63); //Background color for the canvas
+	s.update(); //function defined in snake.js
+	s.show(); //^^^
 
+	if (s.eat(food)){ //Checking a variable in snake.js that looks to see if snake crossed a food vector
+		pickLocation(); //If the snake does, it will pick a new food location
+	}
+
+	if (s.death()) { //Checking a variable in snake.js that checks if the snake crossed itself or hit a wall
+		s.total = 0; //Clears s.total
+		s.tail = []; //Clears array for the tail
+	}
+
+//Drawing the food object, and the score counter
+	fill(255, 0, 100); //Color of the food
+	rect(food.x, food.y, scl, scl); //Creates a rectangle associated with food var
+	fill(255); //Text fill color
+	textSize(20); //Text size
+	text('Score: ' + s.total, 5, 550); //Creates a text element at the bottom left to read the score
 }
+function keyPressed(){ //The control logic
+	/*
+	This part right here I'm really proud of because I struggled to put something in place
+	to prevent the player from going backwards and hitting themselves and ending the game.
+	So what I did is defined 4 booleans at the top, then every time a keypress is seen
+	it runs through the logic and prevents the player from going backwards
+	*/
+	if (key == 'w' && !downDir){ //If the up arrow is pressed and the downDir variable is false
+		s.dir(0, -1); //Set the s.dir var (declared in snake.js) to (0, -1) (which goes up)
+		upDir = true; //Since the snake is now moving up, set upDir to true
+		rightDir = false; //keep rightDir and leftDir false
+		leftDir = false; //^^^
+	} else if (key == 's' && !upDir){ //If down arrow is pressed and upDir is false
+		s.dir(0, 1); //s.dir is set to (0, 1)
+		downDir = true; //downDir is set to true
+		rightDir = false; //rightDir and leftDir are left to false
+		leftDir = false; //^^^
+	} else if (key == 'd' && !leftDir){ //If right arrow is pressed and leftDir is false
+		s.dir(1, 0); //s.dir is set to (1, 0)
+		rightDir = true; //rightDir  is now true
+		upDir = false; //upDir and downDir stay false
+		downDir = false; //^^^
+	} else if (key == 'a' && !rightDir){ //If left arrow is pressed and rightDir is false
+		s.dir(-1, 0); //s.dir is set to (-1, 0)
+		leftDir = true; //leftDir is now true
+		upDir = false; //upDir and leftDir are still false
+		downDir = false; //^^^
+	}
 
-function draw() {
-  scale(rez);
-  background(220);
-  if (snake.eat(food)) {
-    foodLocation();
-  }
-  snake.update();
-  snake.show();
-
-
-  if (snake.endGame()) {
-    print("END GAME");
-    background(255, 0, 0);
-    noLoop();
-  }
-
-  noStroke();
-  fill(255, 0, 0);
-  rect(food.x, food.y, 1, 1);
-}
+	}

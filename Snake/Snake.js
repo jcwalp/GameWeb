@@ -1,70 +1,68 @@
-// Daniel Shiffman
-// http://youtube.com/thecodingtrain
-// http://codingtra.in
+//Snake.js goes in hand with sketch.js
 
-// Coding Challenge #115: Snake Game Redux
-// https://youtu.be/OMoVcohRgZA
+//Function for snake
+function Snake(){
+	this.x = 0; //Setting its x and y positions to 0
+	this.y = 0; //^^^
+	this.xspeed = 0; //Setting x and y speeds to 0
+	this.yspeed = 0; //^^^
+	this.total = 0; //Declaring total/score
+	this.tail = []; //Declaring the tail as an array
 
-class Snake {
+//Function for collision involving snake and food vectors
+this.eat = function(pos){
+	var d = dist(this.x, this.y, pos.x, pos.y); //Calculates the distance between snake(x, y) and food(x, y)
+	if (d < 1){ //If its less than 1
+		this.total++; //The total/score goes up by one
+		return true; //Returns this.eat as true so when its referenced in sketch.js pickLocation() works
+	} else {
+		return false; //If distance > 1 it returns as false
+	}
+}
 
-  constructor() {
-    this.body = [];
-    this.body[0] = createVector(floor(w / 2), floor(h / 2));
-    this.xdir = 0;
-    this.ydir = 0;
-    this.len = 0;
-  }
+	//Function which declares the x and y speeds
+	this.dir = function(x, y){
+		this.xspeed = x; //just sets it as x and y for later use
+		this.yspeed = y; //^^^
+	}
 
-  setDir(x, y) {
-    this.xdir = x;
-    this.ydir = y;
-  }
+	//Fuction which checks for whether or not the snake collided with itself or a wall
+	this.death = function(){
+		for (var i = 0; i < this.tail.length; i++){ //Defines the length of the tail, i being length, and it increases based on the length of the tail array until it is equal
+			var pos = this.tail[i]; //Defines pos as any block in the tail
+			var d = dist(this.x, this.y, pos.x, pos.y); //Calculates the distance between the head and any block of the tail
+			if (d < 1){ //If this distance is less than one
+				return true; //Returns this.death as true which is called in sketch.js
+			}
+		}
+	}
 
-  update() {
-    let head = this.body[this.body.length - 1].copy();
-    this.body.shift();
-    head.x += this.xdir;
-    head.y += this.ydir;
-    this.body.push(head);
-  }
+	//Function for making the tail of the snake actually work
+	this.update = function(){
+		for (var i = 0; i < this.tail.length-1; i++) { //For i(tail) it will increase until it is equal to the length of the array
+			this.tail[i] = this.tail[i+1]; //Shifts tail over one to make a space for new tail piece
+		}
+		this.tail[this.total-1] = createVector(this.x, this.y); //Creates a vector at the next open slot in the tail array
 
-  grow() {
-    let head = this.body[this.body.length - 1].copy();
-    this.len++;
-    this.body.push(head);
-  }
+		this.x = this.x + this.xspeed*scl; //Setting this.x and y equal to its positions + speed then multiplied by scale to bring it up to size of the canvas
+		this.y = this.y + this.yspeed*scl; //^^^^
 
-  endGame() {
-    let x = this.body[this.body.length - 1].x;
-    let y = this.body[this.body.length - 1].y;
-    if (x > w - 1 || x < 0 || y > h - 1 || y < 0) {
-      return true;
-    }
-    for (let i = 0; i < this.body.length - 1; i++) {
-      let part = this.body[i];
-      if (part.x == x && part.y == y) {
-        return true;
-      }
-    }
-    return false;
-  }
+		this.x = constrain(this.x, 0, width - scl); //Creates a barrier on the walls so the snake object cant go off canvas
+		this.y = constrain(this.y, 0, height - scl); //^^^
 
-  eat(pos) {
-    let x = this.body[this.body.length - 1].x;
-    let y = this.body[this.body.length - 1].y;
-    if (x == pos.x && y == pos.y) {
-      this.grow();
-      return true;
-    }
-    return false;
-  }
 
-  show() {
-    for (let i = 0; i < this.body.length; i++) {
-      fill(0);
-      noStroke();
-      rect(this.body[i].x, this.body[i].y, 1, 1)
-    }
-  }
+	}
 
+	//Drawing of actual snake and tail
+	this.show = function(){
+		stroke(0); //Stroke on snake
+		strokeWeight(5); //Stroke weight (5px)
+		fill(255); //Fills it in white
+		for (var i = 0; i < this.total; i++) { //This just adds another tail piece on for everytime the total increases
+			rect(this.tail[i].x, this.tail[i].y, scl, scl); //Tail pieces
+		}
+		rect(this.x, this.y, scl, scl); //Head of the snake
+	}
+
+	
 }
