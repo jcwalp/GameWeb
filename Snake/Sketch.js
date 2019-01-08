@@ -17,8 +17,9 @@ var playArea = [[]];
 //Setup
 function setup(){
 	createCanvas(600, 600); //Creates the playing space
+  initPlayArea();
 	s = new Snake(); //Creates a user defined object for snake
-	frameRate(10); //Sets framerate to 10 to give a retro feel
+	frameRate(5); //Sets framerate to 10 to give a retro feel
 	pickLocation(); //function that is defined on line 19
 }
 
@@ -26,14 +27,22 @@ function setup(){
 function pickLocation(){
 	var cols = floor(width/scl); //Creating a 30x30 grid to make it easy to line up
 	var rows = floor(height/scl); //^^^^
-	if (cols == s.tail || rows == s.tail){
-		cols = floor(width/scl);
-		rows = floor(height/scl);
-	}
-	food = createVector(floor(random(cols)), floor(random(rows))); //Will generate a food object in a random column and row
+  var rCols = floor(random(cols));
+  var rRows = floor(random(rows));
+	food = createVector(rCols, rRows); //Will generate a food object in a random column and row
 	food.mult(scl); //Multiplies the food object by our scale so it will be the same size as snake
+  playArea[food.x/scl][food.y/scl] = "food";
+  console.log(playArea);
 }
 
+function initPlayArea(){
+  for (var i = 0; i < 20; i++){
+    playArea[i] = []
+    for (var j = 0; j < 20; j++){
+      playArea[i][j] = 0;
+    }
+  }
+}
 //Where all of the graphics are created
 function draw(){
 	background(34, 49, 63); //Background color for the canvas
@@ -43,8 +52,10 @@ function draw(){
 
 
 	if (s.eat(food)){ //Checking a variable in snake.js that looks to see if snake crossed a food vector
+    playArea[food.x/scl][food.y/scl] = 0;
 		pickLocation(); //If the snake does, it will pick a new food location
 		ai();
+    updatePos();
 	}
 
 	if (s.death()) { //Checking a variable in snake.js that checks if the snake crossed itself or hit a wall

@@ -51,6 +51,7 @@ this.eat = function(pos){
 		this.y = constrain(this.y, 0, height - scl); //^^^
 
 
+
 	}
 
 	//Drawing of actual snake and tail
@@ -64,5 +65,5 @@ this.eat = function(pos){
 		rect(this.x, this.y, scl, scl); //Head of the snake
 	}
 
-	
+
 }
