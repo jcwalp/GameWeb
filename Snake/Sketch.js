@@ -136,3 +136,7 @@ function ai(){ //The control logic
 		];
 
 	}
+
+	function checkForCollisions(){
+
+	}
