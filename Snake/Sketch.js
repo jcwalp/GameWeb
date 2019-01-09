@@ -69,6 +69,10 @@ function draw(){
 		s.tail = []; //Clears array for the tail
 	}
 
+	if (goal[0] == s.x){
+		pickLocation();
+	}
+
 //Drawing the food object, and the score counter
 	fill(255, 0, 100); //Color of the food
 	rect(food.x, food.y, scl, scl); //Creates a rectangle associated with food var
@@ -77,12 +81,7 @@ function draw(){
 	text('Score: ' + s.total, 5, 550); //Creates a text element at the bottom left to read the score
 }
 
-function checkForWallStuck() {
-	if (s.x == 0 && s.y == 0){
-		s.dir(0, 1);
-		downDir = true;
-	}
-}
+
 
 function ai(){ //The control logic
 	/*
@@ -114,7 +113,7 @@ function ai(){ //The control logic
 	// 	downDir = false; //^^^
 	// }
 
-	checkForWallStuck();
+
 
 	if (pos[1] < goal[1] && !upDir){
 		s.dir(0, 1);
