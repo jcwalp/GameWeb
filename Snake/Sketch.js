@@ -55,6 +55,10 @@ function draw(){
 	if (s.eat(food)){ //Checking a variable in snake.js that looks to see if snake crossed a food vector
     playArea[food.x/scl][food.y/scl] = 0;
 		pickLocation(); //If the snake does, it will pick a new food location
+		if (food.y == s.y || food.x == s.x || food.x == s.tail.x && food.y == s.tail.y){
+			pickLocation();
+			updatePos();
+		}
 		ai();
     updatePos();
 	}
@@ -66,9 +70,6 @@ function draw(){
 		s.tail = []; //Clears array for the tail
 	}
 
-	if (goal[0] == s.x){
-		pickLocation();
-	}
 
 //Drawing the food object, and the score counter
 	fill(255, 0, 100); //Color of the food
@@ -110,11 +111,7 @@ function ai(){ //The control logic
 	// 	downDir = false; //^^^
 	// }
 
-<<<<<<< HEAD
 
-
-=======
->>>>>>> 5bcd8718dab6bf29ee4335d314cce961ebceb87e
 	if (pos[1] < goal[1] && !upDir){
 		s.dir(0, 1);
 		downDir = true;

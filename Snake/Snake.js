@@ -17,7 +17,7 @@ this.eat = function(pos){
 		return true; //Returns this.eat as true so when its referenced in sketch.js pickLocation() works
 	} else {
 		return false; //If distance > 1 it returns as false
-	}
+	}	
 }
 
 	//Function which declares the x and y speeds
