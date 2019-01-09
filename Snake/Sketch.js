@@ -19,7 +19,7 @@ function setup(){
 	createCanvas(600, 600); //Creates the playing space
   initPlayArea();
 	s = new Snake(); //Creates a user defined object for snake
-	frameRate(60); //Sets framerate to 10 to give a retro feel
+	frameRate(200); //Sets framerate to 10 to give a retro feel
 	pickLocation(); //function that is defined on line 19
 }
 
@@ -29,15 +29,8 @@ function pickLocation(){
 	var rows = floor(height/scl); //^^^^
   var rCols = floor(random(cols));
   var rRows = floor(random(rows));
-	if (rRows == s.x){
-		rRows = floor(random(rows));
-	}
-	else if (rCols == s.y) {
-		rCols = floor(random(cols))
-	}
 	food = createVector(rCols, rRows); //Will generate a food object in a random column and row
 	food.mult(scl); //Multiplies the food object by our scale so it will be the same size as snake
-  playArea[food.x/scl][food.y/scl] = "food";
   console.log(playArea);
 }
 
@@ -56,7 +49,6 @@ function draw(){
 	s.show(); //^^^
 	ai();
 
-
 	if (s.eat(food)){ //Checking a variable in snake.js that looks to see if snake crossed a food vector
     playArea[food.x/scl][food.y/scl] = 0;
 		pickLocation(); //If the snake does, it will pick a new food location
@@ -69,6 +61,8 @@ function draw(){
 		s.tail = []; //Clears array for the tail
 	}
 
+
+
 //Drawing the food object, and the score counter
 	fill(255, 0, 100); //Color of the food
 	rect(food.x, food.y, scl, scl); //Creates a rectangle associated with food var
@@ -77,12 +71,7 @@ function draw(){
 	text('Score: ' + s.total, 5, 550); //Creates a text element at the bottom left to read the score
 }
 
-function checkForWallStuck() {
-	if (s.x == 0 && s.y == 0){
-		s.dir(0, 1);
-		downDir = true;
-	}
-}
+
 
 function ai(){ //The control logic
 	/*
@@ -113,8 +102,6 @@ function ai(){ //The control logic
 	// 	upDir = false; //upDir and leftDir are still false
 	// 	downDir = false; //^^^
 	// }
-
-	checkForWallStuck();
 
 	if (pos[1] < goal[1] && !upDir){
 		s.dir(0, 1);
@@ -161,7 +148,6 @@ function ai(){ //The control logic
 			s.y / scl
 		];
 
-		playArea[s.x/scl][s.y/scl] = "";
 	}
 
 	function checkForCollisions(){
