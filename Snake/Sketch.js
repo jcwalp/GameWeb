@@ -19,7 +19,7 @@ function setup(){
 	createCanvas(600, 600); //Creates the playing space
   initPlayArea();
 	s = new Snake(); //Creates a user defined object for snake
-	frameRate(5); //Sets framerate to 10 to give a retro feel
+	frameRate(40); //Sets framerate to 10 to give a retro feel
 	pickLocation(); //function that is defined on line 19
 }
 
@@ -102,6 +102,16 @@ function ai(){ //The control logic
 	// }
 
 	if (pos[1] < goal[1] && !upDir){
+		if (pos[1] == 19){
+			if (pos[0] == 0){
+				s.dir(1,0);
+				rightDir=true;
+			}
+			else if (pos[0] == 19){
+				s.dir(-1, 0);
+				leftDir =true;
+			}
+		}
 		s.dir(0, 1);
 		downDir = true;
 		upDir = false;
