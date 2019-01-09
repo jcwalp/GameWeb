@@ -29,17 +29,13 @@ function pickLocation(){
 	var rows = floor(height/scl); //^^^^
   var rCols = floor(random(cols));
   var rRows = floor(random(rows));
-	if (rRows == s.x){
-		rRows = floor(random(rows));
-	}
-	else if (rCols == s.y) {
-		rCols = floor(random(cols))
-	}
 	food = createVector(rCols, rRows); //Will generate a food object in a random column and row
 	food.mult(scl); //Multiplies the food object by our scale so it will be the same size as snake
-  playArea[food.x/scl][food.y/scl] = "food";
-  console.log(playArea);
+  console.log(s);
+	console.log(food);
 }
+
+
 
 function initPlayArea(){
   for (var i = 0; i < 20; i++){
@@ -56,13 +52,14 @@ function draw(){
 	s.show(); //^^^
 	ai();
 
-
 	if (s.eat(food)){ //Checking a variable in snake.js that looks to see if snake crossed a food vector
     playArea[food.x/scl][food.y/scl] = 0;
 		pickLocation(); //If the snake does, it will pick a new food location
 		ai();
     updatePos();
 	}
+
+
 
 	if (s.death()) { //Checking a variable in snake.js that checks if the snake crossed itself or hit a wall
 		s.total = 0; //Clears s.total
@@ -113,8 +110,11 @@ function ai(){ //The control logic
 	// 	downDir = false; //^^^
 	// }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 5bcd8718dab6bf29ee4335d314cce961ebceb87e
 	if (pos[1] < goal[1] && !upDir){
 		s.dir(0, 1);
 		downDir = true;
@@ -160,7 +160,6 @@ function ai(){ //The control logic
 			s.y / scl
 		];
 
-		playArea[s.x/scl][s.y/scl] = "";
 	}
 
 	function checkForCollisions(){
