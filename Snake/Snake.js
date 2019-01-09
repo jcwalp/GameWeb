@@ -64,7 +64,6 @@ this.eat = function(pos){
 		}
 		fill(155, 255, 0);
 		rect(this.x, this.y, scl, scl); //Head of the snake
-		playArea[this.x/scl][this.y/scl] = "Head";
 	}
 
 

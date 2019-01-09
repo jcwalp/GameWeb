@@ -19,7 +19,7 @@ function setup(){
 	createCanvas(600, 600); //Creates the playing space
   initPlayArea();
 	s = new Snake(); //Creates a user defined object for snake
-	frameRate(200); //Sets framerate to 10 to give a retro feel
+	frameRate(60); //Sets framerate to 10 to give a retro feel
 	pickLocation(); //function that is defined on line 19
 }
 
@@ -31,8 +31,11 @@ function pickLocation(){
   var rRows = floor(random(rows));
 	food = createVector(rCols, rRows); //Will generate a food object in a random column and row
 	food.mult(scl); //Multiplies the food object by our scale so it will be the same size as snake
-  console.log(playArea);
+  console.log(s);
+	console.log(food);
 }
+
+
 
 function initPlayArea(){
   for (var i = 0; i < 20; i++){
@@ -55,6 +58,8 @@ function draw(){
 		ai();
     updatePos();
 	}
+	
+
 
 	if (s.death()) { //Checking a variable in snake.js that checks if the snake crossed itself or hit a wall
 		s.total = 0; //Clears s.total
