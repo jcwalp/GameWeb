@@ -32,7 +32,7 @@ this.eat = function(pos){
 			var pos = this.tail[i]; //Defines pos as any block in the tail
 			var d = dist(this.x, this.y, pos.x, pos.y); //Calculates the distance between the head and any block of the tail
 			if (d < 1){ //If this distance is less than one
-				return true; //Returns this.death as true which is called in sketch.js
+				return false; //Returns this.death as true which is called in sketch.js
 			}
 		}
 	}
@@ -62,7 +62,9 @@ this.eat = function(pos){
 		for (var i = 0; i < this.total; i++) { //This just adds another tail piece on for everytime the total increases
 			rect(this.tail[i].x, this.tail[i].y, scl, scl); //Tail pieces
 		}
+		fill(155, 255, 0);
 		rect(this.x, this.y, scl, scl); //Head of the snake
+		playArea[this.x/scl][this.y/scl] = "Head";
 	}
 
 

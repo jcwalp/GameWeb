@@ -19,7 +19,7 @@ function setup(){
 	createCanvas(600, 600); //Creates the playing space
   initPlayArea();
 	s = new Snake(); //Creates a user defined object for snake
-	frameRate(40); //Sets framerate to 10 to give a retro feel
+	frameRate(60); //Sets framerate to 10 to give a retro feel
 	pickLocation(); //function that is defined on line 19
 }
 
@@ -29,6 +29,12 @@ function pickLocation(){
 	var rows = floor(height/scl); //^^^^
   var rCols = floor(random(cols));
   var rRows = floor(random(rows));
+	if (rRows == s.x){
+		rRows = floor(random(rows));
+	}
+	else if (rCols == s.y) {
+		rCols = floor(random(cols))
+	}
 	food = createVector(rCols, rRows); //Will generate a food object in a random column and row
 	food.mult(scl); //Multiplies the food object by our scale so it will be the same size as snake
   playArea[food.x/scl][food.y/scl] = "food";
@@ -71,6 +77,13 @@ function draw(){
 	text('Score: ' + s.total, 5, 550); //Creates a text element at the bottom left to read the score
 }
 
+function checkForWallStuck() {
+	if (s.x == 0 && s.y == 0){
+		s.dir(0, 1);
+		downDir = true;
+	}
+}
+
 function ai(){ //The control logic
 	/*
 	This part right here I'm really proud of because I struggled to put something in place
@@ -101,17 +114,9 @@ function ai(){ //The control logic
 	// 	downDir = false; //^^^
 	// }
 
+	checkForWallStuck();
+
 	if (pos[1] < goal[1] && !upDir){
-		if (pos[1] == 19){
-			if (pos[0] == 0){
-				s.dir(1,0);
-				rightDir=true;
-			}
-			else if (pos[0] == 19){
-				s.dir(-1, 0);
-				leftDir =true;
-			}
-		}
 		s.dir(0, 1);
 		downDir = true;
 		upDir = false;
@@ -156,6 +161,7 @@ function ai(){ //The control logic
 			s.y / scl
 		];
 
+		playArea[s.x/scl][s.y/scl] = "";
 	}
 
 	function checkForCollisions(){
