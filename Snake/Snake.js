@@ -17,7 +17,7 @@ this.eat = function(pos){
 		return true; //Returns this.eat as true so when its referenced in sketch.js pickLocation() works
 	} else {
 		return false; //If distance > 1 it returns as false
-	}	
+	}
 }
 
 	//Function which declares the x and y speeds
@@ -32,7 +32,7 @@ this.eat = function(pos){
 			var pos = this.tail[i]; //Defines pos as any block in the tail
 			var d = dist(this.x, this.y, pos.x, pos.y); //Calculates the distance between the head and any block of the tail
 			if (d < 1){ //If this distance is less than one
-				return false; //Returns this.death as true which is called in sketch.js
+				return true; //Returns this.death as true which is called in sketch.js
 			}
 		}
 	}
