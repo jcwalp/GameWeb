@@ -37,6 +37,35 @@ this.eat = function(pos){
 		}
 	}
 
+	this.checkSelfCollisions = function(){
+		for (var i = 0; i < this.tail.length; i++){
+			if (this.xspeed == 1){
+				if ((this.x / scl) + 1 == this.tail[i].x / scl && (this.y / scl) == this.tail[i].y / scl){
+					s.dir(0, 1);
+					downDir = true;
+					console.log(0);
+				}
+			}
+			else if (this.xspeed == -1){
+				if ((this.x / scl) - 1 == this.tail[i].x / scl && this.y / scl == this.tail[i].y / scl){
+					s.dir(0, -1);
+					upDir = true;
+					console.log(1)
+				}
+			}
+			else if (this.yspeed == 1){
+
+			}
+			else if (this.yspeed == -1){
+
+			}
+			else{
+				ai();
+			}
+		}
+
+	}
+
 	//Function for making the tail of the snake actually work
 	this.update = function(){
 		for (var i = 0; i < this.tail.length-1; i++) { //For i(tail) it will increase until it is equal to the length of the array

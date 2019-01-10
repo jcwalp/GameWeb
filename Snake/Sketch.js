@@ -33,8 +33,6 @@ function pickLocation(){
 
 	food = createVector(rCols, rRows); //Will generate a food object in a random column and row
 	food.mult(scl); //Multiplies the food object by our scale so it will be the same size as snake
-	console.log(s);
-	console.log(food);
 }
 
 
@@ -53,6 +51,7 @@ function draw(){
 	s.update(); //function defined in snake.js
 	s.show(); //^^^
 	ai();
+	s.checkSelfCollisions();
 
 	if (s.eat(food)){ //Checking a variable in snake.js that looks to see if snake crossed a food vector
 		pickLocation(); //If the snake does, it will pick a new food location
@@ -141,6 +140,7 @@ function ai(){ //The control logic
 		leftDir = true;
 		rightDir = false;
 	}
+
 }
 
 
