@@ -39,30 +39,32 @@ this.eat = function(pos){
 
 	this.checkSelfCollisions = function(){
 		for (var i = 0; i < this.tail.length; i++){
-			if (this.xspeed == 1){
+			if (this.xspeed == 1){ // moving right
 				if ((this.x / scl) + 1 == this.tail[i].x / scl && (this.y / scl) == this.tail[i].y / scl){
-					s.dir(0, 1);
-					downDir = true;
+					findAvailableMove();
 					console.log(0);
 				}
 			}
-			else if (this.xspeed == -1){
+			else if (this.xspeed == -1){ // moving left
 				if ((this.x / scl) - 1 == this.tail[i].x / scl && this.y / scl == this.tail[i].y / scl){
-					s.dir(0, -1);
-					upDir = true;
+					findAvailableMove();
 					console.log(1)
 				}
 			}
-			else if (this.yspeed == 1){
+			else if (this.yspeed == 1){ // moving down
 
 			}
-			else if (this.yspeed == -1){
+			else if (this.yspeed == -1){ // moving up
 
 			}
 			else{
 				ai();
 			}
 		}
+
+	}
+
+	this.findAvailableMove = function(){
 
 	}
 
